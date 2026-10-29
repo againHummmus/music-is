@@ -13,6 +13,12 @@ const ACCOUNT_EXISTS =
 const PROFILE_MISSING =
   'Your profile could not be found. Please contact support.';
 
+function toPlainError(
+  error: { message: string } | null
+): { message: string } | null {
+  return error ? { message: error.message } : null;
+}
+
 function originFromHeaders(): string | undefined {
   const headerList = headers();
   const origin = headerList.get('origin');
@@ -34,7 +40,7 @@ async function loadProfile(
     .select(USER_WITH_ARTIST_SELECT)
     .eq('sbUserId', sbUserId)
     .maybeSingle();
-  if (error) return { data: { user: null }, error };
+  if (error) return { data: { user: null }, error: toPlainError(error) };
   if (!data) {
     return { data: { user: null }, error: { message: PROFILE_MISSING } };
   }
@@ -63,7 +69,11 @@ export async function signUp({
   });
 
   if (error || !data?.user) {
-    return { data: { user: null }, error, needsConfirmation: false };
+    return {
+      data: { user: null },
+      error: toPlainError(error),
+      needsConfirmation: false,
+    };
   }
   if (data.user.identities?.length === 0) {
     return {
@@ -97,7 +107,7 @@ export async function signIn({
   });
 
   if (error || !data?.user) {
-    return { data: { user: null }, error };
+    return { data: { user: null }, error: toPlainError(error) };
   }
 
   return loadProfile(supabase, data.user.id, data.user.email);
@@ -106,7 +116,7 @@ export async function signIn({
 export async function signOut(): Promise<AuthResult> {
   const supabase = createSupabaseServerClient();
   const { error } = await supabase.auth.signOut();
-  return { data: { user: null }, error };
+  return { data: { user: null }, error: toPlainError(error) };
 }
 
 export async function getUser(): Promise<AuthResult> {
@@ -117,5 +127,5 @@ export async function getUser(): Promise<AuthResult> {
 export async function resendConfirmation(email: string) {
   const supabase = createSupabaseServerClient();
   const { error } = await supabase.auth.resend({ type: 'signup', email });
-  return { error };
+  return { error: toPlainError(error) };
 }
