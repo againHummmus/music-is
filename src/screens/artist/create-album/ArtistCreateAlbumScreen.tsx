@@ -108,6 +108,9 @@ export function ArtistCreateAlbumScreen({
             placeholder="name..."
             value={albumName}
             onChange={(e) => setAlbumName(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && !loading) handleSubmit();
+            }}
             className="mb-3 w-full rounded-[7px] border border-darkStormy/80 bg-darkStormy/10 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-mainOrange"
           />
         </div>

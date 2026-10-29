@@ -97,6 +97,9 @@ export function AdminCreateArtistScreen() {
             placeholder="Artist name..."
             value={artistName}
             onChange={(e) => setArtistName(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && canSubmit && !loading) handleUpload();
+            }}
             className="w-full rounded-[7px] border border-darkStormy/80 bg-darkStormy/10 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-mainOrange"
           />
         </div>

@@ -2,7 +2,7 @@
 
 import HumbleiconsEye from '~icons/humbleicons/eye?width=24px&height=24px';
 import HumbleiconsEyeClose from '~icons/humbleicons/eye-close?width=24px&height=24px';
-import { useState, ChangeEvent } from 'react';
+import { useState, ChangeEvent, KeyboardEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { RoundButton } from '@/components/ui/buttons/RoundButton';
@@ -11,6 +11,7 @@ import { useAuthStore } from '@/stores/authStore';
 interface PasswordInputProps {
   value: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onKeyDown?: (e: KeyboardEvent<HTMLInputElement>) => void;
   placeholder?: string;
   className?: string;
 }
@@ -18,6 +19,7 @@ interface PasswordInputProps {
 const PasswordInput: React.FC<PasswordInputProps> = ({
   value,
   onChange,
+  onKeyDown,
   placeholder = 'Enter password',
   className = '',
 }) => {
@@ -29,6 +31,7 @@ const PasswordInput: React.FC<PasswordInputProps> = ({
         type={showPassword ? 'text' : 'password'}
         value={value}
         onChange={onChange}
+        onKeyDown={onKeyDown}
         placeholder={placeholder}
         className={`w-full pr-10 ${className}`}
       />
@@ -130,6 +133,12 @@ export function AuthScreen({
     }
   };
 
+  const handleEnter = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key !== 'Enter' || loading) return;
+    if (mode === 'signIn') handleSignIn();
+    else handleSignUp();
+  };
+
   return (
     <div className="font-inter flex h-screen w-full flex-col items-center justify-center">
       {' '}
@@ -161,12 +170,14 @@ export function AuthScreen({
               <input
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                onKeyDown={handleEnter}
                 placeholder="Enter email"
                 className="w-full rounded-lg border border-gray-300 px-4 py-2 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500"
               />
               <PasswordInput
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                onKeyDown={handleEnter}
                 className="w-full rounded-lg border border-gray-300 px-4 py-2 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500"
               />
               <RoundButton
@@ -208,18 +219,21 @@ export function AuthScreen({
               <input
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                onKeyDown={handleEnter}
                 placeholder="Enter email"
                 className="w-full rounded-lg border border-gray-300 px-4 py-2 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500"
               />
               <input
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
+                onKeyDown={handleEnter}
                 placeholder="Enter username"
                 className="w-full rounded-lg border border-gray-300 px-4 py-2 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500"
               />
               <PasswordInput
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                onKeyDown={handleEnter}
                 className="w-full rounded-lg border border-gray-300 px-4 py-2 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500"
               />
               {/* Privacy Consent Checkbox for Sign Up */}

@@ -98,6 +98,9 @@ export function SettingsScreen({
               type="text"
               value={username ?? ''}
               onChange={(e) => setUsername(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && canSave) handleSave();
+              }}
               className="w-full rounded border px-2 py-1 focus:outline-none focus:ring-2 focus:ring-mainOrange"
             />
           ) : (

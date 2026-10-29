@@ -205,6 +205,9 @@ export function UserProfileScreen({
             placeholder="What's on your mind?"
             value={newPost}
             onChange={(e) => setNewPost(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && !postLoading && newPost.trim()) handleCreatePost();
+            }}
           />
           <button
             onClick={handleCreatePost}

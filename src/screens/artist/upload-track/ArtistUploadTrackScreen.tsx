@@ -75,6 +75,9 @@ export function ArtistUploadTrackScreen({
           </h2>
           <input
             onChange={(e) => setName(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && isComplete && rightsConfirmed && !isUploading) upload();
+            }}
             type="text"
             placeholder="name..."
             className="w-full rounded-[7px] border border-darkStormy/80 bg-darkStormy/10 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-mainOrange"

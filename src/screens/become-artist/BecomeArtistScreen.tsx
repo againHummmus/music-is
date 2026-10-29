@@ -101,6 +101,9 @@ export function BecomeArtistScreen() {
             className="w-full rounded-lg border border-darkStormy/80 bg-darkStormy/10 px-3 py-2 outline-none transition-all focus:ring-2 focus:ring-orange-500"
             value={artistName}
             onChange={(e) => setArtistName(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && canSubmit) handleSubmit();
+            }}
           />
         </section>
       </div>

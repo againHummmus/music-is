@@ -104,6 +104,9 @@ export function PlaylistsScreen({
             placeholder="New playlist name"
             value={newName}
             onChange={(e) => setNewName(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') handleCreate();
+            }}
             className="w-full rounded-[7px] border border-gray-300 px-3 py-2 focus:outline-none"
             disabled={creating}
           />
@@ -112,6 +115,9 @@ export function PlaylistsScreen({
             placeholder="Description"
             value={newDescription}
             onChange={(e) => setDescription(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') handleCreate();
+            }}
             className="w-full rounded-[7px] border border-gray-300 px-3 py-2 focus:outline-none"
             disabled={creating}
           />

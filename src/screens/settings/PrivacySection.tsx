@@ -119,6 +119,9 @@ export function PrivacySection({ recommendationsEnabled }: { recommendationsEnab
           type="text"
           value={confirmation}
           onChange={(e) => setConfirmation(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' && !deletePending) handleDelete();
+          }}
           placeholder={DELETE_CONFIRMATION}
           className="w-full rounded border px-2 py-1 focus:outline-none focus:ring-2 focus:ring-badRed"
         />

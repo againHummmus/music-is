@@ -116,6 +116,9 @@ export function AdminCreateAlbumScreen() {
             placeholder="Album name..."
             value={albumName}
             onChange={(e) => setAlbumName(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && canSubmit && !loading) handleUpload();
+            }}
             className="mb-3 w-full rounded-[7px] border border-darkStormy/80 bg-darkStormy/10 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-mainOrange"
           />
           <input
@@ -123,6 +126,9 @@ export function AdminCreateAlbumScreen() {
             placeholder="Year..."
             value={albumYear}
             onChange={(e) => setAlbumYear(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && canSubmit && !loading) handleUpload();
+            }}
             className="mb-3 w-full rounded-[7px] border border-darkStormy/80 bg-darkStormy/10 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-mainOrange"
           />
           <SuggestionInput
